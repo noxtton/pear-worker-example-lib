@@ -7,9 +7,13 @@ pipe.on('data', data => {
 
   if ('PING' === message) return pipe.write('PONG')
 
-  const lodash = import('lodash')
+  try {
+    const lodash = import('lodash')
 
-  console.log('[From worker]:', lodash)
+    console.log('[From worker]:', lodash)
 
-  pipe.write('lodash loaded')
+    pipe.write('lodash loaded')
+  } catch (error) {
+    pipe.write(error.message)
+  }
 })
